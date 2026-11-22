@@ -39,6 +39,9 @@ export const api = {
       method: "POST",
       body: JSON.stringify(body),
     }),
+  拆号: (body) =>
+    req("/挂牌/拆号", { method: "POST", body: JSON.stringify(body) }),
+  拆票回执: () => req("/拆票回执"),
   隔离列表: () => req("/隔离"),
   日闸今日: () => req("/日闸/今日"),
   日闸列表: () => req("/日闸"),

@@ -42,6 +42,20 @@ class QuarantineIn(BaseModel):
     operator: str = "店员"
 
 
+class SplitItemIn(BaseModel):
+    garment: str
+    qty: int = Field(ge=1)
+    remark: str = ""
+
+
+class SplitIn(BaseModel):
+    source_ticket_no: str
+    new_ticket_no: str
+    operator: str = "店员"
+    note: str = ""
+    items: list[SplitItemIn]
+
+
 @router.get("/挂牌")
 def list_tickets(
     status: str | None = Query(None),
@@ -73,3 +87,13 @@ def pickup(ticket_no: str, body: PickupIn):
 @router.post("/挂牌/{ticket_no}/隔离")
 def quarantine(ticket_no: str, body: QuarantineIn):
     return svc.quarantine(ticket_no, body.kind, body.reason, body.operator)
+
+
+@router.post("/挂牌/拆号")
+def split_ticket(body: SplitIn):
+    return svc.split_ticket(body.model_dump())
+
+
+@router.get("/拆票回执")
+def list_split_receipts():
+    return svc.list_split_receipts()

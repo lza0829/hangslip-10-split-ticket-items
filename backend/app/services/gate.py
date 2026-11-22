@@ -47,8 +47,11 @@ def seal_day(day: str | None = None, note: str = "") -> dict:
 
 
 def refresh_in_flight(conn) -> int:
+    # 全量重算在途水位：已取/丢失隔离/已拆均为出在途终态。
+    # 拆号同事务末尾调用本函数，故不做增量加减，天然可重放、不会双加。
     n = conn.execute(
-        "SELECT COUNT(*) AS c FROM hang_tickets WHERE status NOT IN ('已取','丢失隔离')"
+        "SELECT COUNT(*) AS c FROM hang_tickets "
+        "WHERE status NOT IN ('已取','丢失隔离','已拆')"
     ).fetchone()["c"]
     now = datetime.now().replace(microsecond=0).isoformat(sep=" ")
     conn.execute(

@@ -307,6 +307,26 @@ th {
   color: var(--steam);
 }
 
+.badge.已拆 {
+  border-color: rgba(167, 139, 201, 0.55);
+  color: #cbb4e6;
+}
+
+.split-box {
+  margin: 6px 0 10px;
+  padding: 10px;
+  border: 1px dashed rgba(244, 240, 230, 0.25);
+}
+
+.split-box .row {
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.split-box input {
+  min-width: 90px;
+}
+
 .msg {
   margin: 8px 0 14px;
   color: #f0c2a0;

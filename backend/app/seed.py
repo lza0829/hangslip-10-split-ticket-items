@@ -85,7 +85,7 @@ def seed_if_empty() -> None:
         )
         # refresh watermark
         openish = conn.execute(
-            "SELECT COUNT(*) AS c FROM hang_tickets WHERE status NOT IN ('已取','丢失隔离')"
+            "SELECT COUNT(*) AS c FROM hang_tickets WHERE status NOT IN ('已取','丢失隔离','已拆')"
         ).fetchone()["c"]
         conn.execute(
             "UPDATE watermarks SET value=?, updated_at=? WHERE key='在途票'",

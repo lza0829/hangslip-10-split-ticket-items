@@ -71,9 +71,21 @@ CREATE TABLE IF NOT EXISTS watermarks (
   value INTEGER NOT NULL,
   updated_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS split_receipts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  source_ticket_no TEXT NOT NULL,
+  new_ticket_no TEXT NOT NULL,
+  split_qty INTEGER NOT NULL,
+  operator TEXT NOT NULL,
+  created_at TEXT NOT NULL,
+  detail TEXT NOT NULL DEFAULT ''
+);
 """
 
-STATUSES = ("已收", "水洗", "烘干", "熨烫", "待取", "已取", "超期隔离", "丢失隔离")
+# 「已拆」为拆号另立产生的终态：原票衣物件全部拆出、无残留时关为已拆。
+STATUSES = ("已收", "水洗", "烘干", "熨烫", "待取", "已取", "已拆", "超期隔离", "丢失隔离")
+# 可在其上发起拆号的在途态；新票起始态继承此集合中的原票现行态。
+SPLITTABLE = ("已收", "水洗", "烘干", "熨烫", "待取")
 FORWARD = {
     "已收": ("水洗", "烘干", "熨烫", "待取"),
     "水洗": ("烘干", "熨烫", "待取"),
